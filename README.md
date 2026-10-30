@@ -26,6 +26,7 @@ Hebrew-date watch face for the Amazfit GTR 4, with holidays, the omer, candle li
 | `research/` | חישוב פרשת השבוע (אב-טיפוס בלבד) |
 | `archive/sun_moon/` | ניסוי עיצוב עם קשת שמש וירח |
 | `docs/` | עמוד הפרויקט |
+| `LICENSE`, `THIRD_PARTY.md`, `fonts/OFL.txt` | רישיונות |
 | `DECISIONS.md` | ההחלטות הסופיות: פריסה, חישובים, מקורות זמן |
 
 ## בנייה
@@ -34,7 +35,10 @@ python3 -I tools/build_v3.py          # דורש Pillow ו-numpy, וגם Node
 node tools/check_dates.cjs new_face/package/watchface/default-target/index.js 2024 2045
 TZ=Asia/Jerusalem node tools/simulate.cjs new_face/package/watchface/default-target/index.js 2026-10-30T10:00:00
 ```
-הגופנים בתיקייה `fonts/` (Heebo, Rubik) ברישיון SIL OFL. הנתונים של `research/hebcal` לא כלולים (הורדה מ-hebcal.com).
+הנתונים של `research/hebcal` לא כלולים (הורדה מ-hebcal.com).
+
+## רישיון
+הקוד והתיעוד ברישיון **MIT** (`LICENSE`). הגופנים בתיקייה `fonts/` (Heebo, Rubik) ברישיון **SIL OFL 1.1** (`fonts/OFL.txt`). רכיבים נוספים של אחרים מפורטים ב-`THIRD_PARTY.md`.
 
 ## הערות
 - הזמנים מחושבים ואינם פסיקה הלכתית. מנהגי הדלקה שונים בין ערים (בירושלים 40 דקות), ויש לוודא מול לוח מוסמך.

@@ -42,6 +42,9 @@
 - `node tools/simulate.cjs` מריץ את הקוד מול API מדומה. משתני סביבה: `FIX`, `WEATHER`, `SYSTEM_OFFSET`, `SAVED`, `CLICK`.
 - התקנה בטלפון: `bash tools/sync.sh --build`.
 
+## רישיון
+- קוד ותיעוד: MIT. גופנים Heebo ו-Rubik: SIL OFL 1.1. פירוט ב-`THIRD_PARTY.md`.
+
 ## מגבלות ידועות
 - נבדק בסימולטור בלבד. לא נבדקו על השעון: קליטת GPS מפני שעון, ההרשאות החדשות, ומבנה נתוני Zepp.
 - הזמנים מחושבים, אינם פסיקה, ומניחים אופק פתוח.
