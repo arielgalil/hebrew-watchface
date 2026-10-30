@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>שעון עברי – פני שעון ל-Amazfit GTR 4</title>
+<meta name="description" content="פני שעון עבריים ל-Amazfit GTR 4: תאריך עברי, חגים, ספירת העומר, הדלקת נרות וצאת שבת לפי מיקום השעון וגובהו.">
+<style>
+:root {
+  --bg: #f7f5ef; --fg: #1b1d22; --muted: #5c6270; --card: #ffffff; --line: #e3dfd3;
+  --gold: #a9780b; --accent: #1b1d22; --on-accent: #ffffff; --screen: #05060a;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0e13; --fg: #eceef3; --muted: #9aa1b0; --card: #141821; --line: #262c39;
+    --gold: #f3c45c; --accent: #f3c45c; --on-accent: #1b1405; --screen: #05060a;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 17px/1.65 system-ui, -apple-system, "Segoe UI", "Heebo", "Arial Hebrew", Arial, sans-serif;
+}
+a { color: var(--gold); }
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+header.hero { padding: 56px 0 36px; text-align: center; }
+h1 { font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.15; margin: 0 0 12px; letter-spacing: -.01em; }
+.sub { color: var(--muted); max-width: 40rem; margin: 0 auto 26px; font-size: 1.1rem; }
+.btn {
+  display: inline-block; background: var(--accent); color: var(--on-accent); text-decoration: none;
+  padding: 13px 26px; border-radius: 12px; font-weight: 700; margin: 4px;
+}
+.btn.alt { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+.ver { color: var(--muted); font-size: .9rem; margin-top: 10px; }
+.shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px; padding: 8px 0 30px; }
+figure { margin: 0; text-align: center; }
+figure img { width: 100%; max-width: 280px; aspect-ratio: 1; border-radius: 50%; background: var(--screen); box-shadow: 0 8px 28px rgba(0,0,0,.28); }
+figcaption { color: var(--muted); font-size: .92rem; margin-top: 10px; }
+section { padding: 26px 0; border-top: 1px solid var(--line); }
+h2 { font-size: 1.5rem; margin: 0 0 14px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+.card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.card p { margin: 0; color: var(--muted); font-size: .98rem; }
+ol, ul { padding-inline-start: 1.3rem; }
+li { margin: 6px 0; }
+code { direction: ltr; unicode-bidi: embed; background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: .92em; }
+pre { direction: ltr; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; overflow-x: auto; font-size: .92rem; }
+table { border-collapse: collapse; width: 100%; font-size: .98rem; }
+th, td { text-align: start; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+.note { border-inline-start: 4px solid var(--gold); background: var(--card); padding: 12px 16px; border-radius: 8px; color: var(--muted); }
+footer { padding: 30px 0 50px; color: var(--muted); font-size: .92rem; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>שעון עברי</h1>
+    <p class="sub">פני שעון עבריים ל-Amazfit GTR 4. תאריך עברי עם גימטריה, חגים וספירת העומר, ושעות הדלקת נרות וצאת שבת שמחושבות לפי המיקום והגובה של השעון עצמו.</p>
+    <a class="btn" href="downloads/Hebrew_Date.zip" download>הורדת הפנים (zip)</a>
+    <a class="btn alt" href="https://github.com/">קוד המקור</a>
+    <div class="ver">גרסה 2.3.0 · Zepp OS · נבדקה בסימולטור, לא על כל הדגמים</div>
+  </header>
+
+  <div class="shots">
+    <figure><img src="img/day.png" alt="הפנים ביום: תאריך עברי, שעה, סוללה וצעדים" width="420" height="420"><figcaption>יום רגיל</figcaption></figure>
+    <figure><img src="img/night.png" alt="הפנים בלילה, התאריך מתחיל ב'אור ל'" width="420" height="420"><figcaption>אחרי השקיעה: "אור ל-…"</figcaption></figure>
+    <figure><img src="img/friday.png" alt="ערב שבת וחנוכה: שם החג והדלקת נרות" width="420" height="420"><figcaption>שישי בחנוכה</figcaption></figure>
+    <figure><img src="img/aod.png" alt="מצב מסך תמיד דלוק" width="420" height="420"><figcaption>מסך תמיד דלוק</figcaption></figure>
+  </div>
+
+  <section>
+    <h2>מה בפנים</h2>
+    <div class="grid">
+      <div class="card"><h3>תאריך עברי</h3><p>יום, חודש ושנה בגימטריה, כולל כלל ט״ו/ט״ז, אדר א׳ ואדר ב׳. אחרי השקיעה התאריך עובר ל"אור ל-…" של היום הבא.</p></div>
+      <div class="card"><h3>חגים ועומר</h3><p>חגים ומועדים לפי מנהג ישראל, צומות שנדחים, ימי הזיכרון והעצמאות, חנוכה עם הנר של הערב וספירת העומר.</p></div>
+      <div class="card"><h3>נרות וצאת שבת</h3><p>הדלקת נרות מיום שישי (או ערב חג) ועד השקיעה, ואז צאת שבת או חג. 20 דקות לפני השקיעה, ו-40 דקות אחריה.</p></div>
+      <div class="card"><h3>לפי המיקום והגובה</h3><p>זמני השמש מחושבים לפי המיקום של השעון ולפי הגובה מהברומטר, ולא לפי עיר קבועה.</p></div>
+      <div class="card"><h3>שניות על המסגרת</h3><p>נקודה זהובה שמסתובבת על טבעת הדקות, בלי ספרות נוספות שמעמיסות על השעה.</p></div>
+      <div class="card"><h3>סוללה וצעדים</h3><p>שורה אחת מתחת לשעה, בלי עומס. מסך תמיד דלוק מציג שעה, תאריכים וחג בגוון מעומעם.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>התקנה</h2>
+    <ol>
+      <li>מורידים את הקובץ <code>Hebrew_Date.zip</code> לטלפון.</li>
+      <li>פותחים אותו באפליקציה שבה אתם מתקינים פני שעון: Zepp או AmazFaces.</li>
+      <li>מסנכרנים עם השעון ובוחרים בפנים "Hebrew Date".</li>
+    </ol>
+    <p>מי שמפתח בטרמינל על הטלפון: <code>bash tools/sync.sh --build</code> בונה ופותח את חלון "פתח באמצעות".</p>
+    <p class="note">הפנים נבנו ל-GTR 4 (גרסאות 7930112, 7930113 ו-7864577). דגמים אחרים צריכים פריסה אחרת.</p>
+  </section>
+
+  <section>
+    <h2>מאיפה מגיעות השעות</h2>
+    <p>הסדר, מהמועדף:</p>
+    <table>
+      <tr><th>מקור</th><th>מתי</th><th>סימון</th></tr>
+      <tr><td>GPS וברומטר של השעון</td><td>אם נקלט מיקום ב-6 השעות האחרונות</td><td>נקודה זהובה מתחת לשעה 12</td></tr>
+      <tr><td>נתוני Zepp מהסנכרון</td><td>כשאין מיקום עדכני; מתוקן אם נשארה שעת קיץ</td><td>נקודה כחולה</td></tr>
+      <tr><td>ירושלים, גובה פני הים</td><td>אם אין אף אחד מהם</td><td>נקודה אפורה</td></tr>
+    </table>
+    <p>החישוב לפי נוסחת NOAA, וההיסט מ-UTC נמדד מול שעון המערכת כדי שהזמנים יעקבו אחרי מעבר בין שעון קיץ לחורף.</p>
+    <p class="note">אלו זמנים מחושבים ולא פסיקה. בעיר שמנהגה שונה (למשל ירושלים: 40 דקות לפני השקיעה) יש להתאים את הערך, ויש לבדוק מול לוח מוסמך. החישוב מניח אופק פתוח; בגובה 800 מ׳ השקיעה נדחית בכחמש דקות לעומת לוחות פני הים.</p>
+  </section>
+
+  <section>
+    <h2>מאחורי הקלעים</h2>
+    <ul>
+      <li>לוח השנה העברי, הגימטריה והחגים נכתבו כפונקציות טהורות ב-JavaScript. כל שורה עברית נבדקת שנכנסת למסך העגול בכל יום בין 2024 ל-2045, ורשימת החגים של 2027 נבדקה ידנית מול לוח שנה.</li>
+      <li>חישוב פרשת השבוע נבדק מול Hebcal על 61 שנים (מחקר בתיקיית <code>research</code>, ללא תצוגה בפנים).</li>
+      <li>האותיות העבריות מצוירות כתמונה לכל אות, בגופן Heebo (רישיון OFL), כי פני שעון לא מציירות טקסט עברי ישירות.</li>
+      <li>הנכסים בפורמט TGA מקומפל של Zepp, והכלי <code>tools/zepp_img.py</code> ממיר אליו ומפענח אותו.</li>
+      <li>סימולטור קטן (<code>tools/simulate.cjs</code>) מריץ את הקוד האמיתי מול API מדומה, ומרנדר הדמיות.</li>
+    </ul>
+    <pre>python3 -I tools/build_v3.py     # בונה נכסים, index.js, הדמיות ו-zip
+node tools/check_dates.cjs new_face/package/watchface/default-target/index.js 2024 2045
+bash tools/sync.sh --build        # (בטלפון) פתיחה להתקנה</pre>
+  </section>
+
+  <footer>
+    פרויקט אישי ללא קשר ל-Zepp Health או ל-Amazfit. האפליקציה והשם Zepp שייכים לבעליהם.
+  </footer>
+</div>
+</body>
+</html>

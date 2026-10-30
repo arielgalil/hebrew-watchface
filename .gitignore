@@ -1,0 +1,15 @@
+# other authors' watch faces (not ours to publish)
+faces/AmazFaces/
+# test packages from the early experiments
+faces/hebrew_and_tests/
+# reference data downloaded from hebcal.com
+research/hebcal/
+# build output (rebuilt by tools/build_v3.py; the finished package is in docs/downloads)
+new_face/package/
+new_face/png/
+new_face/widgets*.json
+__pycache__/
+*.pyc
+# working notes with the decision history (kept locally, not published; DECISIONS.md is the public version)
+KNOWLEDGE.md
+archive/sun_moon/KNOWLEDGE_with_sun_moon.md

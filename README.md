@@ -1,0 +1,41 @@
+# שעון עברי | Hebrew Watch Face
+
+פני שעון עבריים ל-**Amazfit GTR 4** (Zepp OS, מסך עגול 466x466): תאריך עברי עם גימטריה, חגים וספירת העומר, הדלקת נרות וצאת שבת, סוללה וצעדים.
+Hebrew-date watch face for the Amazfit GTR 4, with holidays, the omer, candle lighting and Shabbat end times.
+
+**עמוד הפרויקט / project page:** התיקייה `docs/` (GitHub Pages).
+**הורדה / download:** `docs/downloads/Hebrew_Date.zip` (גרסה 2.3.0, appId 1900181).
+
+## מה יש בפנים
+- תאריך עברי בגימטריה (כולל ט״ו/ט״ז, אדר א׳/ב׳), "אור ל-…" אחרי השקיעה.
+- חגים לפי מנהג ישראל, חנוכה עם נר הערב, ספירת העומר.
+- הדלקת נרות מיום שישי האזרחי (או ערב חג) עד השקיעה, ואחריה צאת שבת/חג (20 דקות לפני השקיעה, 40 אחריה).
+- זמני השמש לפי נוסחת NOAA, בסדר מקורות: GPS וברומטר של השעון > נתוני Zepp מהסנכרון (עם תיקון שעון קיץ) > ירושלים.
+- סוללה וצעדים, נקודת שניות על המסגרת, מסך תמיד דלוק.
+
+## מבנה התיקייה
+| נתיב | תוכן |
+|---|---|
+| `new_face/index.template.js` | קוד הפנים (לוח שנה, חגים, זמני שמש, ווידג'טים) |
+| `tools/build_v3.py` | בונה נכסים, `index.js`, הדמיות ו-zip |
+| `tools/zepp_img.py` | המרת תמונות לפורמט הנכסים של Zepp (TGA מקומפל) |
+| `tools/simulate.cjs`, `render.py`, `check_dates.cjs` | סימולטור, רינדור ובדיקת התאמה למסך |
+| `tools/sync.sh` | בטלפון (Termux): בנייה ופתיחה להתקנה |
+| `src/` | הגרסה הראשונה (v2), לעיון |
+| `research/` | חישוב פרשת השבוע (אב-טיפוס בלבד) |
+| `archive/sun_moon/` | ניסוי עיצוב עם קשת שמש וירח |
+| `docs/` | עמוד הפרויקט |
+| `DECISIONS.md` | ההחלטות הסופיות: פריסה, חישובים, מקורות זמן |
+
+## בנייה
+```
+python3 -I tools/build_v3.py          # דורש Pillow ו-numpy, וגם Node
+node tools/check_dates.cjs new_face/package/watchface/default-target/index.js 2024 2045
+TZ=Asia/Jerusalem node tools/simulate.cjs new_face/package/watchface/default-target/index.js 2026-10-30T10:00:00
+```
+הגופנים בתיקייה `fonts/` (Heebo, Rubik) ברישיון SIL OFL. הנתונים של `research/hebcal` לא כלולים (הורדה מ-hebcal.com).
+
+## הערות
+- הזמנים מחושבים ואינם פסיקה הלכתית. מנהגי הדלקה שונים בין ערים (בירושלים 40 דקות), ויש לוודא מול לוח מוסמך.
+- נבדק בסימולטור בלבד. לא נבדק על שעון בכל השילובים (התקנה עם ההרשאות החדשות, GPS מפני שעון).
+- פרויקט אישי, ללא קשר ל-Zepp Health או ל-Amazfit.
