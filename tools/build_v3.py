@@ -317,7 +317,7 @@ def build():
     # installs as an update of the face already published on AmazFaces, not as a second face.
     shutil.copy(os.path.join(ROOT, 'src', 'app.js'), os.path.join(PKG, 'app.js'))
     app = json.load(open(os.path.join(ROOT, 'src', 'app.json'), encoding='utf-8'))
-    app['app'].update(appId=1900181, appName='Hebrew Date', version={'code': 10, 'name': '2.3.0'},
+    app['app'].update(appId=1900181, appName='Hebrew Date', version={'code': 11, 'name': '2.4.0'},
                       description='Digital watch face with the Hebrew date, holidays and sunset date change.')
     app['i18n']['en-US']['appName'] = 'Hebrew Date'
     # Position and height for the sun times come from @zos/sensor (API 2.1); the face checks at run time

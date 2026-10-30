@@ -663,8 +663,17 @@ try {
       const hebrewDate = hebrewDateFromFixed(state.fixed);
       const dateChars = state.night ? nightDateChars(hebrewDate) : hebrewDateChars(hebrewDate);
       const info = infoLines(state.fixed, sunTimesFor(state.fixed, clock.offset).set, state.fixed === today);
+      // No candle lighting or end of Shabbat to show: the next sun event instead, sunset from sunrise to
+      // sunset, sunrise from sunset to sunrise ('שקיעה 16:52').
+      let timesText = info.b;
+      if (!timesText) {
+        const sun = sunTimesFor(today, clock.offset);
+        if (clock.minutes < sun.rise) timesText = '\u05d6\u05e8\u05d9\u05d7\u05d4 ' + clockText(sun.rise);
+        else if (clock.minutes < sun.set) timesText = '\u05e9\u05e7\u05d9\u05e2\u05d4 ' + clockText(sun.set);
+        else timesText = '\u05d6\u05e8\u05d9\u05d7\u05d4 ' + clockText(sunTimesFor(today + 1, clock.offset).rise);
+      }
       const holidayChars = rtlChars(info.a);
-      const timesChars = rtlChars(info.b);
+      const timesChars = rtlChars(timesText);
       renderLine(weekdaySlots, weekdayChars, WEEKDAY_FONT, 'w_');
       renderLine(hebrewSlots, dateChars, DATE_FONT, 'h_');
       renderLine(holidaySlots, holidayChars, HOLIDAY_FONT, 'e_');
