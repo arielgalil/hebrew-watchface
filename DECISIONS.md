@@ -1,10 +1,10 @@
-# החלטות סופיות | Hebrew Date 2.4.1
+# החלטות סופיות | Hebrew Date 2.4.2
 
 מסמך זה כולל את מה שהוחלט בלבד. נימוקים והיסטוריה אינם כלולים.
 
 ## המכשיר והחבילה
 - Amazfit GTR 4, מסך עגול 466x466, Zepp OS. `deviceSource`: 7930112, 7930113, 7864577.
-- שם: Hebrew Date, `appId` 1900181, גרסה 2.4.1 (code 12). בכל פרסום מעלים את ה-code.
+- שם: Hebrew Date, `appId` 1900181, גרסה 2.4.2 (code 13). בכל פרסום מעלים את ה-code.
 - הרשאות: `gps`, `device:os.geolocation`, `device:os.barometer`, `device:os.local_storage`. הקוד בודק בזמן ריצה, ואם אין מודול נשארים על ירושלים.
 
 ## מה על המסך
