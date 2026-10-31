@@ -237,7 +237,7 @@ def build():
     L.update(TIME_Y=C - th // 2, TIME_SPACE=ts, TIME_X=C - total // 2)
     L['MINUTE_X'] = L['TIME_X'] + 2 * tw + 3 * ts + colon_w
 
-    # Gregorian date DD/MM/YY, centred.
+    # Gregorian date DD/MM/YYYY, centred.
     dw, dh, ds, slw, gap = max_digit_width('Medium', 21) + 3, 30, 1, 12, 2
     digit_set('sd_', 'Medium', 21, dw, dh, DATE)
     digit_set('as_', 'Medium', 21, dw, dh, AOD_GREY)
@@ -245,14 +245,14 @@ def build():
     save(text_cell('/', slash_f, slw, dh, SLASH, (dh + 22) // 2), 'slash.png')
     save(text_cell('/', slash_f, slw, dh, (70, 72, 76), (dh + 22) // 2), 'asl.png')
     group = 2 * dw + ds
-    total = 3 * group + 2 * slw + 4 * gap
+    total = 2 * group + 2 * slw + 4 * dw + 3 * ds + 4 * gap  # DD/MM/YYYY
     day_x = C - total // 2
     s1 = day_x + group + gap
     month_x = s1 + slw + gap
     s2 = month_x + group + gap
     year_x = s2 + slw + gap
     L.update(DATE_Y=144, DATE_W=dw, DATE_H=dh, DATE_SPACE=ds, SLASH_W=slw, DAY_X=day_x, MONTH_X=month_x,
-             SLASH_XS=[s1, s2], YEAR_XS=[year_x, year_x + dw + ds])
+             SLASH_XS=[s1, s2], YEAR_XS=[year_x + i * (dw + ds) for i in range(4)])
 
     # Small values: digits, colon, comma, units.
     small_ink = 20  # battery and steps in the status row
@@ -317,7 +317,7 @@ def build():
     # installs as an update of the face already published on AmazFaces, not as a second face.
     shutil.copy(os.path.join(ROOT, 'src', 'app.js'), os.path.join(PKG, 'app.js'))
     app = json.load(open(os.path.join(ROOT, 'src', 'app.json'), encoding='utf-8'))
-    app['app'].update(appId=1900181, appName='Hebrew Date', version={'code': 11, 'name': '2.4.0'},
+    app['app'].update(appId=1900181, appName='Hebrew Date', version={'code': 12, 'name': '2.4.1'},
                       description='Digital watch face with the Hebrew date, holidays and sunset date change.')
     app['i18n']['en-US']['appName'] = 'Hebrew Date'
     # Position and height for the sun times come from @zos/sensor (API 2.1); the face checks at run time

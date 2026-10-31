@@ -519,13 +519,11 @@ try {
     }
 
     function updateYear() {
-      const yy = new Date().getFullYear() % 100;
-      const tens = Math.floor(yy / 10);
-      const units = yy % 10;
-      yearSlots[0].setProperty(hmUI.prop.SRC, 'sd_' + tens + '.png');
-      yearSlots[1].setProperty(hmUI.prop.SRC, 'sd_' + units + '.png');
-      aodYearSlots[0].setProperty(hmUI.prop.SRC, 'as_' + tens + '.png');
-      aodYearSlots[1].setProperty(hmUI.prop.SRC, 'as_' + units + '.png');
+      const year = String(new Date().getFullYear());
+      year.split('').forEach((d, i) => {
+        yearSlots[i].setProperty(hmUI.prop.SRC, 'sd_' + d + '.png');
+        aodYearSlots[i].setProperty(hmUI.prop.SRC, 'as_' + d + '.png');
+      });
     }
 
     // Local time as the system clock shows it, and its offset from UTC measured against the real
@@ -710,7 +708,7 @@ try {
       });
     }
 
-    // Gregorian date DD/MM/YY: day and month from IMG_DATE, slashes and year as images.
+    // Gregorian date DD/MM/YYYY: day and month from IMG_DATE, slashes and year as images.
     function createDate(digitPrefix, slash, years, showLevel) {
       const digits = digitNames(digitPrefix);
       hmUI.createWidget(hmUI.widget.IMG_DATE, {
