@@ -663,9 +663,14 @@ try {
       const info = infoLines(state.fixed, sunTimesFor(state.fixed, clock.offset).set, state.fixed === today);
       // No candle lighting or end of Shabbat to show: the next sun event instead, sunset from sunrise to
       // sunset, sunrise from sunset to sunrise ('שקיעה 16:52').
+      const sun = sunTimesFor(today, clock.offset);
       let timesText = info.b;
+      // Shabbat or a holiday runs until its end time, 40 minutes after sunset. From sunset to that time the
+      // Hebrew date has already moved on, but the line keeps the end time instead of the sunrise.
+      if (!timesText && isRestDay(today) && clock.minutes < sun.set + HAVDALAH_MINUTES) {
+        timesText = infoLines(today, sun.set, true).b;
+      }
       if (!timesText) {
-        const sun = sunTimesFor(today, clock.offset);
         if (clock.minutes < sun.rise) timesText = '\u05d6\u05e8\u05d9\u05d7\u05d4 ' + clockText(sun.rise);
         else if (clock.minutes < sun.set) timesText = '\u05e9\u05e7\u05d9\u05e2\u05d4 ' + clockText(sun.set);
         else timesText = '\u05d6\u05e8\u05d9\u05d7\u05d4 ' + clockText(sunTimesFor(today + 1, clock.offset).rise);
