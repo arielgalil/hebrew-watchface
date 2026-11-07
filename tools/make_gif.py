@@ -4,10 +4,13 @@
 2 seconds each, looping. The frames are the real face: simulate.cjs runs new_face's index.js at the
 given time and render.py draws the widgets, so the GIF follows whatever the code shows.
 
+It is also copied to docs/img/ for the project page.
+
 Run after: python3 -I tools/build_v3.py
     python3 -I tools/make_gif.py
 """
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -73,6 +76,10 @@ def main():
     frames[0].save(path, save_all=True, append_images=frames[1:], duration=DURATION, loop=0, transparency=255,
                    disposal=2, optimize=False)
     print(path, os.path.getsize(path), 'bytes,', len(frames), 'frames')
+    # The project page shows it (docs/index.html).
+    site = os.path.join(ROOT, 'docs', 'img', 'hebrew_date_360_portal.gif')
+    shutil.copy(path, site)
+    print(site)
 
 
 main()
