@@ -34,7 +34,7 @@ let days = 0;
 for (let d = new Date(Number(from), 0, 1); d.getFullYear() <= Number(to); d.setDate(d.getDate() + 1)) {
   const hd = api.hebrewDateFromFixed(api.fixedDayFromDate(d));
   check(api.hebrewDateChars(hd), api.DATE_FONT, api.L.HEBREW_Y, 40, api.L.HEBREW_SLOTS, 'date', worst);
-  check(api.hebrewWeekdayChars(d.getDay()), api.WEEKDAY_FONT, api.L.WEEKDAY_Y, 34, api.L.WEEKDAY_SLOTS, 'weekday', worst);
+  for (const kind of d.getDay() === 5 ? ['', 'e'] : d.getDay() === 6 ? ['', 'm'] : ['']) check(api.hebrewWeekdayChars(d.getDay(), kind), api.WEEKDAY_FONT, api.L.WEEKDAY_Y, 34, api.L.WEEKDAY_SLOTS, 'weekday', worst);
   const fixed = api.fixedDayFromDate(d);
   if (api.weekdayFromFixed(fixed) !== d.getDay()) throw new Error('weekdayFromFixed wrong on ' + d.toDateString());
   check(api.nightDateChars(hd), api.DATE_FONT, api.L.HEBREW_Y, 40, api.L.HEBREW_SLOTS, 'night date', worst);

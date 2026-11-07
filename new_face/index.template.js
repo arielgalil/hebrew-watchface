@@ -163,7 +163,21 @@ function hebrewDateChars(hebrewDate) {
     .concat(hebrewYearText(hebrewDate.year));
 }
 
-function hebrewWeekdayChars(weekday) {
+// The weekday line: the civil weekday, except that Friday from candle lighting reads 'ערב שבת' and
+// Saturday from the end of Shabbat reads 'מוצאי שבת' (both until midnight). `sun` holds the sun times
+// of the civil day, `minutes` is the time of day.
+const EREV_SHABBAT = '\u05e2\u05e8\u05d1 \u05e9\u05d1\u05ea';
+const MOTZAEI_SHABBAT = '\u05de\u05d5\u05e6\u05d0\u05d9 \u05e9\u05d1\u05ea';
+
+function weekdayKind(weekday, minutes, sun) {
+  if (weekday === 5 && minutes >= sun.set - CANDLE_MINUTES) return 'e';
+  if (weekday === 6 && minutes >= sun.set + HAVDALAH_MINUTES) return 'm';
+  return '';
+}
+
+function hebrewWeekdayChars(weekday, kind) {
+  if (kind === 'e') return EREV_SHABBAT.split('');
+  if (kind === 'm') return MOTZAEI_SHABBAT.split('');
   return HEBREW_WEEKDAY_NAMES[weekday].split('');
 }
 
@@ -653,11 +667,12 @@ try {
       const now = clock.now;
       const today = fixedDayFromDate(now);
       const state = hebrewDayNow(now, clock.minutes, sunTimesFor(today, clock.offset));
-      const key = state.fixed + (state.night ? 'n' : 'd');
+      const weekdayState = weekdayKind(now.getDay(), clock.minutes, sunTimesFor(today, clock.offset));
+      const key = state.fixed + (state.night ? 'n' : 'd') + weekdayState;
       if (!force && key === shownDayKey) return;
       shownDayKey = key;
-      // The weekday stays the civil one; only the Hebrew date moves on at sunset.
-      const weekdayChars = hebrewWeekdayChars(now.getDay());
+      // The weekday is the civil one, with 'ערב שבת' from candle lighting and 'מוצאי שבת' after Shabbat.
+      const weekdayChars = hebrewWeekdayChars(now.getDay(), weekdayState);
       const hebrewDate = hebrewDateFromFixed(state.fixed);
       const dateChars = state.night ? nightDateChars(hebrewDate) : hebrewDateChars(hebrewDate);
       const info = infoLines(state.fixed, sunTimesFor(state.fixed, clock.offset).set, state.fixed === today);

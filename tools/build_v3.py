@@ -187,13 +187,13 @@ def background():
         a = math.radians(i * 6)
         hour = i % 5 == 0
         r2 = (C - 5) * s
-        r1 = r2 - (11 if hour else 5) * s
+        r1 = r2 - (11 if hour else 6) * s
         if i == 0:
             col, wdt = GOLD + (255,), 3
         elif hour:
-            col, wdt = (104, 112, 128, 255), 2
+            col, wdt = (178, 186, 200, 255), 2
         else:
-            col, wdt = (52, 58, 70, 255), 1
+            col, wdt = (122, 130, 146, 255), 1  # one-second hairlines, clearly visible but fine
         d.line((C * s + math.sin(a) * r1, C * s - math.cos(a) * r1, C * s + math.sin(a) * r2, C * s - math.cos(a) * r2),
                fill=col, width=wdt * s)
     return big.resize((SIZE, SIZE), Image.LANCZOS).convert('RGBA')
@@ -340,7 +340,7 @@ def build():
     # version code on every release, so it installs as an update of the face already published, not a second one.
     shutil.copy(os.path.join(ROOT, 'src', 'app.js'), os.path.join(PKG, 'app.js'))
     app = json.load(open(os.path.join(ROOT, 'src', 'app.json'), encoding='utf-8'))
-    app['app'].update(appId=APP_ID, appName='Hebrew Date', version={'code': 13, 'name': '2.4.2'},
+    app['app'].update(appId=APP_ID, appName='Hebrew Date', version={'code': 14, 'name': '2.4.3'},
                       description='Digital watch face with the Hebrew date, holidays and sunset date change.')
     app['i18n']['en-US']['appName'] = 'Hebrew Date'
     # Position and height for the sun times come from @zos/sensor (API 2.1); the face checks at run time

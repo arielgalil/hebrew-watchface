@@ -4,7 +4,7 @@
 Hebrew-date watch face for the Amazfit GTR 4, with holidays, the omer, candle lighting and Shabbat end times.
 
 **עמוד הפרויקט / project page:** התיקייה `docs/` (GitHub Pages).
-**הורדה / download:** `docs/downloads/Hebrew_Date.zip` (גרסה 2.4.2, appId 1134151).
+**הורדה / download:** `docs/downloads/Hebrew_Date.zip` (גרסה 2.4.3, appId 1134151).
 
 ## מה יש בפנים
 - תאריך עברי בגימטריה (כולל ט״ו/ט״ז, אדר א׳/ב׳), "אור ל-…" אחרי השקיעה.
@@ -18,13 +18,16 @@ Hebrew-date watch face for the Amazfit GTR 4, with holidays, the omer, candle li
 | נתיב | תוכן |
 |---|---|
 | `new_face/index.template.js` | קוד הפנים (לוח שנה, חגים, זמני שמש, ווידג'טים) |
-| `tools/build_v3.py` | בונה נכסים, `index.js`, הדמיות ו-zip |
+| `tools/build_v3.py` | בונה נכסים, `index.js`, הדמיות ו-zip (466 כברירת מחדל, `FACE_SIZE=480` למסכי 480) |
+| `tools/make_zab.py` | אורז את ה-zip של שני הגדלים לקובצי ZAB לקונסולת Zepp, ב-`new_face/dist/` |
+| `tools/make_gif.py` | גיף תצוגה עגול עם רקע שקוף, ב-`new_face/dist/` |
 | `tools/zepp_img.py` | המרת תמונות לפורמט הנכסים של Zepp (TGA מקומפל) |
 | `tools/simulate.cjs`, `render.py`, `check_dates.cjs` | סימולטור, רינדור ובדיקת התאמה למסך |
 | `tools/sync.sh` | בטלפון (Termux): בנייה ופתיחה להתקנה |
 | `src/` | הגרסה הראשונה (v2), לעיון |
 | `research/` | חישוב פרשת השבוע (אב-טיפוס בלבד) |
 | `archive/sun_moon/` | ניסוי עיצוב עם קשת שמש וירח |
+| `archive/design_comparisons/` | תמונות השוואה מתהליך העיצוב |
 | `docs/` | עמוד הפרויקט |
 | `LICENSE`, `THIRD_PARTY.md`, `fonts/OFL.txt` | רישיונות |
 | `DECISIONS.md` | ההחלטות הסופיות: פריסה, חישובים, מקורות זמן |
@@ -32,6 +35,9 @@ Hebrew-date watch face for the Amazfit GTR 4, with holidays, the omer, candle li
 ## בנייה
 ```
 python3 -I tools/build_v3.py          # דורש Pillow ו-numpy, וגם Node
+FACE_SIZE=480 python3 -I tools/build_v3.py   # מסכי 480
+python3 -I tools/make_zab.py          # קובצי ZAB להעלאה לקונסולה
+python3 -I tools/make_gif.py          # גיף תצוגה עם רקע שקוף
 node tools/check_dates.cjs new_face/package/watchface/default-target/index.js 2024 2045
 TZ=Asia/Jerusalem node tools/simulate.cjs new_face/package/watchface/default-target/index.js 2026-10-30T10:00:00
 ```
