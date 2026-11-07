@@ -191,9 +191,9 @@ def background():
         if i == 0:
             col, wdt = GOLD + (255,), 3
         elif hour:
-            col, wdt = (178, 186, 200, 255), 2
+            col, wdt = (226, 231, 240, 255), 2
         else:
-            col, wdt = (122, 130, 146, 255), 1  # one-second hairlines, clearly visible but fine
+            col, wdt = (166, 174, 190, 255), 1  # one-second hairlines, clearly visible but fine
         d.line((C * s + math.sin(a) * r1, C * s - math.cos(a) * r1, C * s + math.sin(a) * r2, C * s - math.cos(a) * r2),
                fill=col, width=wdt * s)
     return big.resize((SIZE, SIZE), Image.LANCZOS).convert('RGBA')
