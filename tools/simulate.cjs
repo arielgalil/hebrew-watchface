@@ -1,5 +1,6 @@
 // Runs a watch face index.js against a fake Zepp OS API and prints the widgets it created.
 // Usage: TZ=Asia/Jerusalem node simulate.cjs <index.js> <ISO date> [steps] [compassAngle] [calibrated 0|1]
+// THEN=<ISO date> moves the clock on and fires the minute event after the first draw.
 // The system clock sensor (hour/minute) follows the date; set SYSTEM_OFFSET=<minutes from UTC> to make the clock sensor differ from the JS Date's time zone (a stale zone).
 'use strict';
 const fs = require('fs');
@@ -9,7 +10,7 @@ const [, , file, iso, steps = '8432', angle = '35', calibrated = '1'] = process.
 const RealDate = Date;
 const sysLocal = () => new RealDate(fixed.getTime() + (process.env.SYSTEM_OFFSET
   ? Number(process.env.SYSTEM_OFFSET) : -fixed.getTimezoneOffset()) * 60000); // read with getUTC*
-const fixed = new RealDate(iso);
+let fixed = new RealDate(iso);
 class FakeDate extends RealDate {
   constructor(...args) { if (args.length) super(...args); else super(fixed.getTime()); }
   static now() { return fixed.getTime(); }
@@ -30,15 +31,17 @@ const hmUI = {
     return { setProperty(k, v) { w.props[k] = v; }, getProperty(k) { return w.props[k]; } };
   },
 };
+const listeners = {};
 function sensor(extra) {
-  return Object.assign({ addEventListener() {}, start() {}, stop() {} }, extra);
+  return Object.assign({ addEventListener(name, fn) { (listeners[name] = listeners[name] || []).push(fn); }, start() {}, stop() {} }, extra);
 }
+let timeSensorObj = null;
 const hmSensor = {
   id: { STEP: 'STEP', TIME: 'TIME', COMPASS: 'COMPASS', WEATHER: 'WEATHER' },
   event: { CHANGE: 'CHANGE' },
   createSensor(id) {
     if (id === 'STEP') return sensor({ current: Number(steps) });
-    if (id === 'TIME') return sensor({ hour: sysLocal().getUTCHours(), minute: sysLocal().getUTCMinutes(), event: { DAYCHANGE: 'DAYCHANGE', MINUTEEND: 'MINUTEEND' } });
+    if (id === 'TIME') return timeSensorObj = sensor({ hour: sysLocal().getUTCHours(), minute: sysLocal().getUTCMinutes(), event: { DAYCHANGE: 'DAYCHANGE', MINUTEEND: 'MINUTEEND' } });
     // WEATHER='06:54,17:52;06:55,17:51' are the sun times synced from Zepp: today;tomorrow (unset: nothing synced).
     if (id === 'WEATHER') {
       const hm = t => ({ hour: Number(t.split(':')[0]), minute: Number(t.split(':')[1]) });
@@ -89,6 +92,16 @@ vm.createContext(context);
 vm.runInContext(fs.readFileSync(file, 'utf8'), context, { filename: file });
 if (!app.current.module) throw new Error('watch face module was not registered');
 app.current.module.build();
+// THEN=<ISO date>: the clock moves on to that time and the minute event fires, as on the watch, so a
+// redraw that should happen (or wrongly does not) shows in the widgets printed below.
+if (process.env.THEN) {
+  const dayBefore = sysLocal().getUTCDate();
+  fixed = new RealDate(process.env.THEN);
+  timeSensorObj.hour = sysLocal().getUTCHours();
+  timeSensorObj.minute = sysLocal().getUTCMinutes();
+  if (sysLocal().getUTCDate() !== dayBefore) (listeners.DAYCHANGE || []).forEach(fn => fn());
+  (listeners.MINUTEEND || []).forEach(fn => fn());
+}
 // Press every button once; startApp calls are logged to stderr.
 if (process.env.CLICK) widgets.filter(w => w.type === 'BUTTON').forEach(w => w.props.click_func({}));
 process.stdout.write(JSON.stringify(widgets, null, 1));

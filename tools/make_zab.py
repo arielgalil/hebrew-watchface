@@ -8,12 +8,15 @@ watch face with no phone-side code). Layout checked against a ZAB produced by th
 
 Run after: python3 -I tools/build_v3.py ; FACE_SIZE=480 python3 -I tools/build_v3.py
     python3 -I tools/make_zab.py
-Writes in new_face/dist/: Hebrew_Date-<version>-466.zab, -480.zab and -all.zab (both zpks, one submission).
+Writes in new_face/dist/: Hebrew_Date-<version>-466.zab, -480.zab and -all.zab (both zpks, one submission),
+and Hebrew_Date-<version>-466.zip, -480.zip: the plain zips for sideloading and for AmazFaces (one upload per
+screen size there).
 """
 import hashlib
 import io
 import json
 import os
+import shutil
 import time
 import zipfile
 
@@ -65,3 +68,7 @@ os.makedirs(DIST, exist_ok=True)
 version = entry(466)[2]['app']['version']['name']
 for sizes, tag in (((466,), '466'), ((480,), '480'), ((466, 480), 'all')):
     write(os.path.join(DIST, 'Hebrew_Date-%s-%s.zab' % (version, tag)), sizes)
+for size in (466, 480):
+    zip_path = os.path.join(DIST, 'Hebrew_Date-%s-%d.zip' % (version, size))
+    shutil.copy(os.path.join(OUT, ZIPS[size]), zip_path)
+    print(zip_path, os.path.getsize(zip_path), 'bytes (AmazFaces / sideload)')

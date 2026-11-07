@@ -667,8 +667,12 @@ try {
       const now = clock.now;
       const today = fixedDayFromDate(now);
       const state = hebrewDayNow(now, clock.minutes, sunTimesFor(today, clock.offset));
-      const weekdayState = weekdayKind(now.getDay(), clock.minutes, sunTimesFor(today, clock.offset));
-      const key = state.fixed + (state.night ? 'n' : 'd') + weekdayState;
+      const sunToday = sunTimesFor(today, clock.offset);
+      const weekdayState = weekdayKind(now.getDay(), clock.minutes, sunToday);
+      // The end of a day of rest (40 minutes after sunset) changes the times line without changing the Hebrew
+      // day, so it is part of the key; without it a holiday in mid-week kept 'צאת החג' until midnight.
+      const restEnded = isRestDay(today) && clock.minutes >= sunToday.set + HAVDALAH_MINUTES;
+      const key = state.fixed + (state.night ? 'n' : 'd') + weekdayState + (restEnded ? 'x' : '');
       if (!force && key === shownDayKey) return;
       shownDayKey = key;
       // The weekday is the civil one, with 'ערב שבת' from candle lighting and 'מוצאי שבת' after Shabbat.
