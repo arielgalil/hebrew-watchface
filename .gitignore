@@ -7,6 +7,9 @@ research/hebcal/
 # build output (rebuilt by tools/build_v3.py; the finished package is in docs/downloads)
 new_face/package/
 new_face/png/
+new_face/package_*/
+new_face/png_*/
+new_face/dist/
 new_face/widgets*.json
 __pycache__/
 *.pyc

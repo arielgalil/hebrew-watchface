@@ -3,8 +3,8 @@
 מסמך זה כולל את מה שהוחלט בלבד. נימוקים והיסטוריה אינם כלולים.
 
 ## המכשיר והחבילה
-- Amazfit GTR 4, מסך עגול 466x466, Zepp OS. `deviceSource`: 7930112, 7930113, 7864577.
-- שם: Hebrew Date, `appId` 1900181, גרסה 2.4.2 (code 13). בכל פרסום מעלים את ה-code.
+- מסך עגול 466x466 (21 מכשירים, ראה `PLATFORMS` ב-`tools/build_v3.py`: GTR 4, Active 3 Premium, Cheetah 2 Pro, T-Rex 3 Pro 44mm, Active 2 Round), ו-480x480 (26 מכשירים: Balance, T-Rex 3, Active Max ועוד). שני הגדלים נארזים ב-ZAB אחד (`new_face/dist/Hebrew_Date-<version>-all.zab`).
+- שם: Hebrew Date, `appId` 1134151, גרסה 2.4.2 (code 13). בכל פרסום מעלים את ה-code.
 - הרשאות: `gps`, `device:os.geolocation`, `device:os.barometer`, `device:os.local_storage`. הקוד בודק בזמן ריצה, ואם אין מודול נשארים על ירושלים.
 
 ## מה על המסך

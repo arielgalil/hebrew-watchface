@@ -463,8 +463,8 @@ try {
       const slot = hmUI.createWidget(hmUI.widget.IMG, {
         x: 0,
         y: 0,
-        w: 466,
-        h: 466,
+        w: L.SIZE,
+        h: L.SIZE,
         center_x: 0,
         center_y: posY,
         pos_x: posX,
@@ -758,7 +758,7 @@ try {
 
     __$$module$$__.module = DeviceRuntimeCore.WatchFace({
       init_view() {
-        img(0, 0, 466, 466, 'bg.png', NORMAL);
+        img(0, 0, L.SIZE, L.SIZE, 'bg.png', NORMAL);
 
         // ---- Normal screen ----
         createGlyphSlots(weekdaySlots, L.WEEKDAY_SLOTS, L.WEEKDAY_Y, 'w_5d9.png', NORMAL);

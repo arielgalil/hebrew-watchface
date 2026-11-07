@@ -23,10 +23,13 @@ sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import zepp_img  # noqa: E402
 
 OUT = os.path.join(ROOT, 'new_face')
-PKG = os.path.join(OUT, 'package')
-PNG = os.path.join(OUT, 'png')
+SIZE = int(os.environ.get('FACE_SIZE', 466))   # 466 (GTR 4 and the like) or 480 (Balance, T-Rex 3, GTR 3 Pro...)
+OFF = (SIZE - 466) // 2                         # the 466 layout is kept and centred on a bigger screen
+SUFFIX = '' if SIZE == 466 else '_%d' % SIZE
+APP_ID = int(os.environ.get('APP_ID', 1134151))  # the id of the release page in the Zepp Console
+PKG = os.path.join(OUT, 'package' + SUFFIX)
+PNG = os.path.join(OUT, 'png' + SUFFIX)
 FONT = os.path.join(ROOT, 'fonts', 'Heebo[wght].ttf')
-SIZE = 466
 C = SIZE // 2
 SS = 4  # supersampling for drawn shapes
 
@@ -196,6 +199,26 @@ def background():
     return big.resize((SIZE, SIZE), Image.LANCZOS).convert('RGBA')
 
 
+# deviceSource values from docs.zepp.com (Device Basic Information), grouped by screen resolution.
+PLATFORMS = {
+    466: [('Amazfit GTR 4', (7930112, 7930113, 7864577)),
+          ('Amazfit Active 3 Premium', (10944768, 10944769, 10944771, 10948867)),
+          ('Amazfit Cheetah 2 Pro', (11010304, 11010305, 11010307)),
+          ('Amazfit T-Rex 3 Pro 44mm', (10682624, 10682625, 10682627)),
+          ('Amazfit Active 2 Round', (8913152, 8913153, 8913155, 8913159, 10092800, 10092801, 10092803, 10092807))],
+    480: [('Amazfit Balance 3', (11141376, 11141377, 11141379)),
+          ('Amazfit Balance Ultra', (11075840, 11075841)),
+          ('Amazfit Cheetah 2 Ultra', (9961728, 9961729)),
+          ('Amazfit T-Rex Ultra 2', (10879232, 10879233, 10879235)),
+          ('Amazfit Active Max', (10813697, 10813699)),
+          ('Amazfit T-Rex 3 Pro 48mm', (10551552, 10551553, 10551555)),
+          ('Amazfit Balance 2', (9568512, 9568513, 9568515)),
+          ('Amazfit T-Rex 3', (8716544, 8716545, 8716547)),
+          ('Amazfit Balance', (8519936, 8519937, 8519939)),
+          ('Amazfit Cheetah Pro', (8126720, 8126721))]  # GTR 3 Pro (Zepp OS 1.0) left out until tested on the watch,
+}
+
+
 # ---- Build ---------------------------------------------------------------------
 
 def build():
@@ -220,8 +243,8 @@ def build():
     # Last line: candle lighting / end of Shabbat (Hebrew with digits), light grey.
     times_font = hebrew_set('n_', 'Medium', 14, 22, 28, WEEKDAY, WEEKDAY, 0.4, 7, extra='0123456789:')
     hebrew_set('an_', 'Medium', 14, 22, 28, AOD_GREY, AOD_GREY, 0.4, 7, extra='0123456789:')
-    L.update(WEEKDAY_Y=58, WEEKDAY_SLOTS=10, HEBREW_Y=98, HEBREW_SLOTS=22, HOLIDAY_Y=366 - 15, HOLIDAY_SLOTS=14,
-             TIMES_Y=394 - 14, TIMES_SLOTS=16)
+    L.update(SIZE=SIZE, WEEKDAY_Y=58 + OFF, WEEKDAY_SLOTS=10, HEBREW_Y=98 + OFF, HEBREW_SLOTS=22,
+             HOLIDAY_Y=366 - 15 + OFF, HOLIDAY_SLOTS=14, TIMES_Y=394 - 14 + OFF, TIMES_SLOTS=16)
 
     # Time: the centre of the screen, bold, tabular cells.
     time_ink = 88
@@ -251,7 +274,7 @@ def build():
     month_x = s1 + slw + gap
     s2 = month_x + group + gap
     year_x = s2 + slw + gap
-    L.update(DATE_Y=144, DATE_W=dw, DATE_H=dh, DATE_SPACE=ds, SLASH_W=slw, DAY_X=day_x, MONTH_X=month_x,
+    L.update(DATE_Y=144 + OFF, DATE_W=dw, DATE_H=dh, DATE_SPACE=ds, SLASH_W=slw, DAY_X=day_x, MONTH_X=month_x,
              SLASH_XS=[s1, s2], YEAR_XS=[year_x + i * (dw + ds) for i in range(4)])
 
     # Small values: digits, colon, comma, units.
@@ -273,8 +296,8 @@ def build():
     icon = 32
     save(icon_battery(icon), 'ic_battery.png')
     save(icon_steps(icon), 'ic_steps.png')
-    row_y = 322
-    bat_icon_x, steps_icon_x = 62, 244
+    row_y = 322 + OFF
+    bat_icon_x, steps_icon_x = 62 + OFF, 244 + OFF
     bat_x, steps_x = bat_icon_x + icon + 8, steps_icon_x + icon + 8
     assert bat_x + 3 * sw + 18 <= steps_icon_x - 14, 'battery runs into steps'
     assert steps_x + 5 * sw + comma_w <= 2 * C - 60, 'steps run out of the screen'
@@ -289,16 +312,16 @@ def build():
         big, d = canvas(place, place)
         d.ellipse((SS, SS, (place - 1) * SS, (place - 1) * SS), fill=col + (255,))
         save(finish(big, place, place), name)
-    L.update(PLACE_X=C - place // 2, PLACE_Y=26, PLACE_SIZE=place)
+    L.update(PLACE_X=C - place // 2, PLACE_Y=26 + OFF, PLACE_SIZE=place)
 
     # Seconds dot on the minute ring (ticks run from radius 217 to 228).
-    dot, pos_x, pos_y = seconds_dot(222, 4.5)
+    dot, pos_x, pos_y = seconds_dot(222 + OFF, 4.5)
     save(dot, 'sec_dot.png')
     L.update(SEC_POS_X=pos_x, SEC_POS_Y=pos_y)
 
     # Tap areas: [x, y, w, h, native screen]. Screen names as used by GTR 4 faces in the store.
     save(Image.new('RGBA', (16, 16)), 'transparent.png')
-    L['SHORTCUTS'] = [[80, 56, 306, 124, 'ScheduleCalScreen'],                       # dates -> calendar
+    L['SHORTCUTS'] = [[80 + OFF, 56 + OFF, 306, 124, 'ScheduleCalScreen'],                       # dates -> calendar
                       [L['TIME_X'] - 6, L['TIME_Y'], SIZE - 2 * (L['TIME_X'] - 6), 96, 'CountdownAppScreen']]  # time -> timers
 
     # index.js
@@ -313,11 +336,11 @@ def build():
     index_js = os.path.join(PKG, 'watchface', 'default-target', 'index.js')
     open(index_js, 'w', encoding='utf-8').write(js)
 
-    # app.js unchanged. app.json keeps v2's appId (1900181) with a higher version code, so it
-    # installs as an update of the face already published on AmazFaces, not as a second face.
+    # app.js unchanged. app.json takes APP_ID (default 1134151, the Zepp Console release page) with a higher
+    # version code on every release, so it installs as an update of the face already published, not a second one.
     shutil.copy(os.path.join(ROOT, 'src', 'app.js'), os.path.join(PKG, 'app.js'))
     app = json.load(open(os.path.join(ROOT, 'src', 'app.json'), encoding='utf-8'))
-    app['app'].update(appId=1900181, appName='Hebrew Date', version={'code': 13, 'name': '2.4.2'},
+    app['app'].update(appId=APP_ID, appName='Hebrew Date', version={'code': 13, 'name': '2.4.2'},
                       description='Digital watch face with the Hebrew date, holidays and sunset date change.')
     app['i18n']['en-US']['appName'] = 'Hebrew Date'
     # Position and height for the sun times come from @zos/sensor (API 2.1); the face checks at run time
@@ -326,33 +349,37 @@ def build():
     app['runtime']['apiVersion']['target'] = '3.0.0'
     app['packageInfo']['timeStamp'] = int(time.time())
     # All GTR 4 variants from docs.zepp.com device list (7864577 was missing in v2).
-    app['platforms'] = [{'name': 'Amazfit GTR 4', 'deviceSource': ds} for ds in (7930112, 7930113, 7864577)]
+    app['platforms'] = [{'name': name, 'deviceSource': ds} for name, sources in PLATFORMS[SIZE] for ds in sources]
+    app['designWidth'] = SIZE
     app['packageInfo']['timeStamp'] = int(time.time())
     json.dump(app, open(os.path.join(PKG, 'app.json'), 'w', encoding='utf-8'), separators=(',', ':'))
 
     # Simulate and render.
     sim = os.path.join(ROOT, 'tools', 'simulate.cjs')
     render = os.path.join(ROOT, 'tools', 'render.py')
-    widgets = os.path.join(OUT, 'widgets.json')
+    widgets = os.path.join(OUT, 'widgets%s.json' % SUFFIX)
     with open(widgets, 'w') as f:
         subprocess.run(['node', sim, index_js, '2026-10-28T10:42:00', '12345', '35', '1'], stdout=f, check=True,
                        env=dict(os.environ, TZ='Asia/Jerusalem'))
-    for level in ('normal', 'aod'):
-        subprocess.run([sys.executable, '-I', render, widgets, PNG, os.path.join(OUT, f'mockup_{level}.png'), level],
-                       check=True)
+    if SIZE == 466:  # the mockup renderer is drawn for 466; bigger screens reuse its preview
+        for level in ('normal', 'aod'):
+            subprocess.run([sys.executable, '-I', render, widgets, PNG, os.path.join(OUT, f'mockup_{level}.png'), level],
+                           check=True)
 
     # Preview: the normal mockup, round, 314 px (same size as v2).
     mock = Image.open(os.path.join(OUT, 'mockup_normal.png')).convert('RGBA')
-    mask = Image.new('L', (SIZE, SIZE), 0)
-    ImageDraw.Draw(mask).ellipse((0, 0, SIZE - 1, SIZE - 1), fill=255)
+    mask = Image.new('L', mock.size, 0)
+    ImageDraw.Draw(mask).ellipse((0, 0, mock.size[0] - 1, mock.size[1] - 1), fill=255)
     mock.putalpha(mask)
-    prev = mock.resize((314, 314), Image.LANCZOS)
+    pv = 314 if SIZE == 466 else 324  # preview sizes from the Zepp docs
+    prev = mock.resize((pv, pv), Image.LANCZOS)
     a = prev.getchannel('A').point(lambda v: 255 if v >= 128 else 0)
     prev.putalpha(a)
     save(prev, 'preview.png')
 
     # Zip, laid out like the store packages (directory entries included).
-    zpath = os.path.join(OUT, 'hebrew_date_face_v3.zip')
+    # This zip is the 'zpk' of one screen size; tools/make_zab.py wraps one or more of them into a ZAB.
+    zpath = os.path.join(OUT, 'hebrew_date_face_v3%s.zip' % SUFFIX)
     if os.path.exists(zpath):
         os.remove(zpath)
     with zipfile.ZipFile(zpath, 'w', zipfile.ZIP_DEFLATED) as z:
