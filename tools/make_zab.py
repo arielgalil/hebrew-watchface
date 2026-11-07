@@ -10,7 +10,8 @@ Run after: python3 -I tools/build_v3.py ; FACE_SIZE=480 python3 -I tools/build_v
     python3 -I tools/make_zab.py
 Writes in new_face/dist/: Hebrew_Date-<version>-466.zab, -480.zab and -all.zab (both zpks, one submission),
 and Hebrew_Date-<version>-466.zip, -480.zip: the plain zips for sideloading and for AmazFaces (one upload per
-screen size there).
+screen size there). The same two zips go to docs/downloads/Hebrew_Date-466.zip and -480.zip for
+the project page.
 """
 import hashlib
 import io
@@ -72,3 +73,8 @@ for size in (466, 480):
     zip_path = os.path.join(DIST, 'Hebrew_Date-%s-%d.zip' % (version, size))
     shutil.copy(os.path.join(OUT, ZIPS[size]), zip_path)
     print(zip_path, os.path.getsize(zip_path), 'bytes (AmazFaces / sideload)')
+    # The project page links these two, under names without a version.
+    os.makedirs(os.path.join(ROOT, 'docs', 'downloads'), exist_ok=True)
+    site = os.path.join(ROOT, 'docs', 'downloads', 'Hebrew_Date-%d.zip' % size)
+    shutil.copy(zip_path, site)
+    print(site)

@@ -4,7 +4,7 @@
 Hebrew-date watch face for the Amazfit GTR 4, with holidays, the omer, candle lighting and Shabbat end times.
 
 **עמוד הפרויקט / project page:** התיקייה `docs/` (GitHub Pages).
-**הורדה / download:** `docs/downloads/Hebrew_Date.zip` (גרסה 2.4.3, appId 1134151).
+**הורדה / download:** `docs/downloads/Hebrew_Date-466.zip` ו-`Hebrew_Date-480.zip`, לפי גודל המסך (גרסה 2.4.3, appId 1134151).
 
 ## מה יש בפנים
 - תאריך עברי בגימטריה (כולל ט״ו/ט״ז, אדר א׳/ב׳), "אור ל-…" אחרי השקיעה.

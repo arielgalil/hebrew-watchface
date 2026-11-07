@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>שעון עברי – פני שעון ל-Amazfit GTR 4</title>
-<meta name="description" content="פני שעון עבריים ל-Amazfit GTR 4: תאריך עברי, חגים, ספירת העומר, הדלקת נרות וצאת שבת לפי מיקום השעון וגובהו.">
+<title>שעון עברי – פני שעון ל-Amazfit</title>
+<meta name="description" content="פני שעון עבריים ל-Amazfit (מסכים עגולים 466 ו-480): תאריך עברי, חגים, ספירת העומר, הדלקת נרות וצאת שבת לפי מיקום השעון וגובהו.">
 <style>
 :root {
   --bg: #f7f5ef; --fg: #1b1d22; --muted: #5c6270; --card: #ffffff; --line: #e3dfd3;
@@ -58,10 +58,10 @@ footer { padding: 30px 0 50px; color: var(--muted); font-size: .92rem; border-to
 <div class="wrap">
   <header class="hero">
     <h1>שעון עברי</h1>
-    <p class="sub">פני שעון עבריים ל-Amazfit GTR 4. תאריך עברי עם גימטריה, חגים וספירת העומר, ושעות הדלקת נרות וצאת שבת שמחושבות לפי המיקום והגובה של השעון עצמו.</p>
-    <a class="btn" href="downloads/Hebrew_Date.zip" download>הורדת הפנים (zip)</a>
+    <p class="sub">פני שעון עבריים ל-Amazfit, בשתי גרסאות לפי גודל המסך. תאריך עברי עם גימטריה, חגים וספירת העומר, ושעות הדלקת נרות וצאת שבת שמחושבות לפי המיקום והגובה של השעון עצמו.</p>
+    <a class="btn" href="#download">הורדה לפי דגם</a>
     <a class="btn alt" href="https://github.com/arielgalil/hebrew-watchface">קוד המקור</a>
-    <div class="ver">גרסה 2.4.2 · Zepp OS · נבדקה בסימולטור, לא על כל הדגמים</div>
+    <div class="ver">גרסה 2.4.3 · Zepp OS · נבדקה בסימולטור, לא על כל הדגמים</div>
   </header>
 
   <div class="shots">
@@ -83,15 +83,32 @@ footer { padding: 30px 0 50px; color: var(--muted); font-size: .92rem; border-to
     </div>
   </section>
 
+  <section id="download">
+    <h2>הורדה</h2>
+    <p>יש שתי גרסאות, לפי גודל המסך של השעון. בוחרים את זו שהדגם שלכם מופיע בה.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>מסך 466×466</h3>
+        <p><a class="btn" href="downloads/Hebrew_Date-466.zip" download>הורדה (466)</a></p>
+        <p>Amazfit GTR 4, Active 3 Premium, Cheetah 2 Pro, T-Rex 3 Pro 44mm, Active 2 Round.</p>
+      </div>
+      <div class="card">
+        <h3>מסך 480×480</h3>
+        <p><a class="btn" href="downloads/Hebrew_Date-480.zip" download>הורדה (480)</a></p>
+        <p>Amazfit Balance, Balance 2, Balance 3, Balance Ultra, T-Rex 3, T-Rex 3 Pro 48mm, T-Rex Ultra 2, Cheetah Pro, Cheetah 2 Ultra, Active Max.</p>
+      </div>
+    </div>
+    <p class="note">הפנים עוצבו ונבדקו בסימולטור, ובעיקר ל-GTR 4. בשאר הדגמים הן לא נבדקו על שעון אמיתי, והפריסה של גרסת 480 היא אותה פריסה ממורכזת על מסך גדול יותר.</p>
+  </section>
+
   <section>
     <h2>התקנה</h2>
     <ol>
-      <li>מורידים את הקובץ <code>Hebrew_Date.zip</code> לטלפון.</li>
+      <li>מורידים את הקובץ המתאים לדגם (466 או 480) לטלפון.</li>
       <li>פותחים אותו באפליקציה שבה אתם מתקינים פני שעון: Zepp או AmazFaces.</li>
       <li>מסנכרנים עם השעון ובוחרים בפנים "Hebrew Date".</li>
     </ol>
     <p>מי שמפתח בטרמינל על הטלפון: <code>bash tools/sync.sh --build</code> בונה ופותח את חלון "פתח באמצעות".</p>
-    <p class="note">הפנים נבנו ל-GTR 4 (גרסאות 7930112, 7930113 ו-7864577). דגמים אחרים צריכים פריסה אחרת.</p>
   </section>
 
   <section>
@@ -116,7 +133,7 @@ footer { padding: 30px 0 50px; color: var(--muted); font-size: .92rem; border-to
       <li>הנכסים בפורמט TGA מקומפל של Zepp, והכלי <code>tools/zepp_img.py</code> ממיר אליו ומפענח אותו.</li>
       <li>סימולטור קטן (<code>tools/simulate.cjs</code>) מריץ את הקוד האמיתי מול API מדומה, ומרנדר הדמיות.</li>
     </ul>
-    <pre>python3 -I tools/build_v3.py     # בונה נכסים, index.js, הדמיות ו-zip
+    <pre>python3 -I tools/build_v3.py     # בונה נכסים, index.js, הדמיות ו-zip (FACE_SIZE=480 למסכי 480)
 node tools/check_dates.cjs new_face/package/watchface/default-target/index.js 2024 2045
 bash tools/sync.sh --build        # (בטלפון) פתיחה להתקנה</pre>
   </section>
